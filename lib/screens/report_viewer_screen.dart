@@ -2,11 +2,24 @@ import 'package:flutter/material.dart';
 import '../services/supabase_service.dart';
 import '../model/report_model.dart';
 
+/// A screen that displays a list of submitted citizen reports.
+///
+/// Fetches reports from Supabase and presents them in a scrollable list.
+/// Each report shows its title, description, location, and severity level
+/// with color-coded indicators.
 class ReportViewerScreen extends StatelessWidget {
+  /// Creates a [ReportViewerScreen] widget.
   const ReportViewerScreen({super.key});
 
+  /// Loads reports asynchronously from the Supabase backend.
   Future<List<Report>> _loadReports() => SupabaseService.fetchReports();
 
+  /// Returns a color based on the severity level.
+  ///
+  /// - `'low'` → green
+  /// - `'medium'` → orange
+  /// - `'high'` → red
+  /// - unknown → grey
   Color _severityColor(String severity) {
     switch (severity.toLowerCase()) {
       case 'low':
@@ -37,6 +50,7 @@ class ReportViewerScreen extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
+
             if (snapshot.hasError) {
               return Center(
                 child: Text(
@@ -45,11 +59,13 @@ class ReportViewerScreen extends StatelessWidget {
                 ),
               );
             }
+
             final reports = snapshot.data ?? [];
             if (reports.isEmpty) {
               return const Center(child: Text('No reports found.'));
             }
 
+            /// Displays each report in a styled card.
             return ListView.builder(
               itemCount: reports.length,
               itemBuilder: (context, index) {

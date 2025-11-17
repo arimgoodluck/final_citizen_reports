@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'report_form_screen.dart';
 
+/// The main landing screen for the Citizen Report app.
+///
+/// Displays a welcoming background image, a semi-transparent overlay,
+/// and a call-to-action button that navigates to the report submission form.
 class HomeScreen extends StatelessWidget {
+  /// Creates a stateless [HomeScreen] widget.
   const HomeScreen({super.key});
 
   @override
@@ -10,14 +15,22 @@ class HomeScreen extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
+          /// Background image covering the entire screen.
           Image.asset('assets/home_background.jpg', fit: BoxFit.cover),
+
+          /// Semi-transparent black overlay for contrast.
           Container(color: Colors.black.withOpacity(0.4)),
+
+          /// Main content column with spacing and centered text/button.
           Column(
             children: [
               const Spacer(flex: 2),
+
+              /// Centered welcome message and navigation button.
               Center(
                 child: Column(
                   children: [
+                    /// App title text.
                     const Text(
                       'Welcome to Citizen Report',
                       textAlign: TextAlign.center,
@@ -28,16 +41,14 @@ class HomeScreen extends StatelessWidget {
                         fontFamily: 'Raleway',
                       ),
                     ),
+
                     const SizedBox(height: 30),
+
+                    /// Button to navigate to the report form screen.
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(
-                          255,
-                          14,
-                          97,
-                          11,
-                        ), // Green
-                        foregroundColor: Colors.white, // White text
+                        backgroundColor: const Color.fromARGB(255, 14, 97, 11),
+                        foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 40,
                           vertical: 18,
@@ -61,6 +72,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
+
               const Spacer(flex: 3),
             ],
           ),

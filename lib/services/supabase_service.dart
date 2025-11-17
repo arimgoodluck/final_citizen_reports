@@ -4,10 +4,35 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '../model/report_model.dart';
 
+/// A service class for interacting with Supabase backend.
+///
+/// Handles image uploads to Supabase Storage and report data insertion/retrieval
+/// from the Supabase database.
 class SupabaseService {
+  /// Supabase client instance used for storage and database operations.
   static final _client = Supabase.instance.client;
 
-  /// Submit a report with image upload and database insert
+  /// Submits a citizen report to Supabase.
+  ///
+  /// This method performs the following steps:
+  /// 1. Reads image bytes from the provided [XFile].
+  /// 2. Uploads the image to Supabase Storage under the `report_images` bucket.
+  /// 3. Retrieves the public URL of the uploaded image.
+  /// 4. Inserts a new report record into the `reports` table with metadata.
+  ///
+  /// Throws an exception if the insert fails or returns no data.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// await SupabaseService.submitReport(
+  ///   title: 'Flooding',
+  ///   description: 'Water overflow near Main Street',
+  ///   image: capturedImage,
+  ///   latitude: 10.654,
+  ///   longitude: -61.501,
+  ///   severity: 'High',
+  /// );
+  /// ```
   static Future<void> submitReport({
     required String title,
     required String description,
@@ -51,7 +76,17 @@ class SupabaseService {
     }
   }
 
-  /// Fetch all reports from the database
+  /// Fetches all submitted reports from the Supabase database.
+  ///
+  /// Retrieves data from the `reports` table, ordered by `created_at` descending.
+  /// Converts each record into a [Report] model instance.
+  ///
+  /// Returns an empty list if an error occurs.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// final reports = await SupabaseService.fetchReports();
+  /// ```
   static Future<List<Report>> fetchReports() async {
     try {
       final response = await _client

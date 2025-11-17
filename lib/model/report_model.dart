@@ -1,10 +1,27 @@
+/// A data model representing a citizen-submitted incident report.
+///
+/// Each report includes metadata such as title, description, location coordinates,
+/// and severity level. This class supports JSON deserialization for integration
+/// with APIs or local storage.
 class Report {
+  /// Short title of the report (e.g., "Flooded Street").
   final String title;
+
+  /// Detailed description of the incident.
   final String description;
+
+  /// Latitude coordinate of the incident location.
   final double latitude;
+
+  /// Longitude coordinate of the incident location.
   final double longitude;
+
+  /// Severity level of the incident (e.g., "Low", "Medium", "High").
   final String severity;
 
+  /// Creates a [Report] instance with all required fields.
+  ///
+  /// All parameters are mandatory to ensure complete metadata.
   Report({
     required this.title,
     required this.description,
@@ -13,6 +30,23 @@ class Report {
     required this.severity,
   });
 
+  /// Creates a [Report] instance from a JSON map.
+  ///
+  /// This factory constructor handles missing fields gracefully:
+  /// - Defaults `title` and `description` to empty strings (`''`)
+  /// - Converts `latitude` and `longitude` to `double` safely
+  /// - Defaults `severity` to `'Unknown'` if not provided
+  ///
+  /// Example:
+  /// ```dart
+  /// final report = Report.fromJson({
+  ///   'title': 'Flooded Street',
+  ///   'description': 'Heavy rainfall caused flooding near Main Street.',
+  ///   'latitude': 10.654,
+  ///   'longitude': -61.501,
+  ///   'severity': 'High',
+  /// });
+  /// ```
   factory Report.fromJson(Map<String, dynamic> json) {
     return Report(
       title: json['title'] ?? '',
