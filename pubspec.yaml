@@ -1,0 +1,38 @@
+name: final_citizensreport
+description: A new Flutter project.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # ✅ Core packages
+  image_picker: ^1.0.8
+  geolocator: ^10.1.0
+  google_maps_flutter: ^2.9.1
+  permission_handler: ^12.0.1
+  uuid: ^4.5.1
+  supabase_flutter: ^2.0.0
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/home_background.jpg
+    - assets/fonts/
+
+  fonts:
+    - family: Georgia
+      fonts:
+        - asset: assets/fonts/Georgia.ttf
