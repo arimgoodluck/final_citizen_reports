@@ -29,7 +29,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/home_background.jpg
+    - assets/images/home_background.jpg
     - assets/fonts/
 
   fonts:

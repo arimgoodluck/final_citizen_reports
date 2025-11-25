@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           /// Background image covering the entire screen.
-          Image.asset('home_background.jpg', fit: BoxFit.cover),
+          Image.asset('assets/images/home_background.jpg', fit: BoxFit.cover),
 
           /// Semi-transparent black overlay for contrast.
           Container(color: Colors.black.withOpacity(0.4)),
