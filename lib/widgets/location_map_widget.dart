@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-/// A reusable widget that displays a Google Map for selecting a location.
-///
-/// - Shows a map centered on a default location (UWI, Trinidad).
+/// - A reusable widget that displays a Google Map for selecting a location.
 /// - Allows users to tap on the map to select a location.
 /// - Displays a marker at the selected location.
 /// - Notifies parent widgets via [onTap] and [onMapCreated] callbacks.

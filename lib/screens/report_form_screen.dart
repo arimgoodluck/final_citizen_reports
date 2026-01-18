@@ -7,9 +7,7 @@ import '../services/supabase_service.dart';
 import '../widgets/location_map_widget.dart';
 
 /// A screen that allows users to submit a citizen report.
-///
-/// Users can select a predefined issue type or enter a custom title,
-/// write a description, choose severity, capture an image, and select a location.
+/// Users can select a predefined issue type or enter a custom title, write a description, choose severity, capture an image and select a location.
 /// The report is then submitted to Supabase.
 class ReportFormScreen extends StatefulWidget {
   /// Creates a [ReportFormScreen] widget.
@@ -105,13 +103,13 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('✅ Report submitted successfully')),
+        const SnackBar(content: Text('Report submitted successfully')),
       );
       Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('❌ Submission failed: $e')));
+      ).showSnackBar(SnackBar(content: Text('Submission failed: $e')));
     }
   }
 

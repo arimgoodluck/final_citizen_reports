@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'report_form_screen.dart';
 
 /// The main landing screen for the Citizen Report app.
-///
-/// Displays a welcoming background image, a semi-transparent overlay,
-/// and a call-to-action button that navigates to the report submission form.
+/// Displays a welcoming background image, a semi-transparent overlay and a call-to-action button that navigates to the report submission form.
 class HomeScreen extends StatelessWidget {
   /// Creates a stateless [HomeScreen] widget.
   const HomeScreen({super.key});
@@ -30,7 +28,7 @@ class HomeScreen extends StatelessWidget {
               Center(
                 child: Column(
                   children: [
-                    /// App title text.
+                    /// App title text
                     const Text(
                       'Welcome to Citizen Report',
                       textAlign: TextAlign.center,

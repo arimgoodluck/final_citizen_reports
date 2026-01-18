@@ -2,37 +2,36 @@ import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
+
 import '../model/report_model.dart';
 
-/// A service class for interacting with Supabase backend.
-///
-/// Handles image uploads to Supabase Storage and report data insertion/retrieval
-/// from the Supabase database.
 class SupabaseService {
-  /// Supabase client instance used for storage and database operations.
-  static final _client = Supabase.instance.client;
+  /// Allows overriding the client for tests
+  static SupabaseClient? testClient;
 
-  /// Submits a citizen report to Supabase.
-  ///
-  /// This method performs the following steps:
-  /// 1. Reads image bytes from the provided [XFile].
-  /// 2. Uploads the image to Supabase Storage under the `report_images` bucket.
-  /// 3. Retrieves the public URL of the uploaded image.
-  /// 4. Inserts a new report record into the `reports` table with metadata.
-  ///
-  /// Throws an exception if the insert fails or returns no data.
-  ///
-  /// Example usage:
-  /// ```dart
-  /// await SupabaseService.submitReport(
-  ///   title: 'Flooding',
-  ///   description: 'Water overflow near Main Street',
-  ///   image: capturedImage,
-  ///   latitude: 10.654,
-  ///   longitude: -61.501,
-  ///   severity: 'High',
-  /// );
-  /// ```
+  /// The real production client, unless test overrides it
+  static SupabaseClient get _client => testClient ?? Supabase.instance.client;
+
+  /// Upload an image to Supabase
+  static Future<String> uploadImage(XFile file) async {
+    try {
+      final Uint8List bytes = await file.readAsBytes();
+      final String fileName = '${const Uuid().v4()}.jpg';
+
+      await _client.storage.from('report_images').uploadBinary(fileName, bytes);
+
+      final String url = _client.storage
+          .from('report_images')
+          .getPublicUrl(fileName);
+
+      return url;
+    } catch (e) {
+      print("Upload error: $e");
+      rethrow;
+    }
+  }
+
+  /// Insert report in database
   static Future<void> submitReport({
     required String title,
     required String description,
@@ -42,19 +41,8 @@ class SupabaseService {
     required String severity,
   }) async {
     try {
-      // ✅ Read image bytes as Uint8List
-      final Uint8List bytes = await image.readAsBytes();
-      final String fileName = '${const Uuid().v4()}.jpg';
+      final imageUrl = await uploadImage(image);
 
-      // ✅ Upload image to Supabase Storage
-      await _client.storage.from('report_images').uploadBinary(fileName, bytes);
-
-      // ✅ Get public URL of uploaded image
-      final String imageUrl = _client.storage
-          .from('report_images')
-          .getPublicUrl(fileName);
-
-      // ✅ Insert full report into Supabase table
       final response = await _client.from('reports').insert({
         'title': title,
         'description': description,
@@ -66,27 +54,15 @@ class SupabaseService {
       }).select();
 
       if (response.isEmpty) {
-        throw Exception('Insert failed or returned no data');
+        throw Exception("Insert returned no data");
       }
-
-      print('✅ Report submitted successfully');
     } catch (e) {
-      print('❌ Supabase error: $e');
+      print("Supabase insert error: $e");
       rethrow;
     }
   }
 
-  /// Fetches all submitted reports from the Supabase database.
-  ///
-  /// Retrieves data from the `reports` table, ordered by `created_at` descending.
-  /// Converts each record into a [Report] model instance.
-  ///
-  /// Returns an empty list if an error occurs.
-  ///
-  /// Example usage:
-  /// ```dart
-  /// final reports = await SupabaseService.fetchReports();
-  /// ```
+  /// Fetch reports from Supabase
   static Future<List<Report>> fetchReports() async {
     try {
       final response = await _client
@@ -94,10 +70,10 @@ class SupabaseService {
           .select()
           .order('created_at', ascending: false);
 
-      final data = response as List<dynamic>;
-      return data.map((json) => Report.fromJson(json)).toList();
+      final list = response as List;
+      return list.map((json) => Report.fromJson(json)).toList();
     } catch (e) {
-      print('❌ Error fetching reports: $e');
+      print("Fetch error: $e");
       return [];
     }
   }

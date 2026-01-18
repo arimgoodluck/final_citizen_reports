@@ -30,23 +30,23 @@ class Report {
     required this.severity,
   });
 
+  /// Converts the [Report] instance to a Map for storage or fake service usage.
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'description': description,
+      'latitude': latitude,
+      'longitude': longitude,
+      'severity': severity,
+    };
+  }
+
   /// Creates a [Report] instance from a JSON map.
-  ///
   /// This factory constructor handles missing fields gracefully:
   /// - Defaults `title` and `description` to empty strings (`''`)
   /// - Converts `latitude` and `longitude` to `double` safely
   /// - Defaults `severity` to `'Unknown'` if not provided
-  ///
-  /// Example:
-  /// ```dart
-  /// final report = Report.fromJson({
-  ///   'title': 'Flooded Street',
-  ///   'description': 'Heavy rainfall caused flooding near Main Street.',
-  ///   'latitude': 10.654,
-  ///   'longitude': -61.501,
-  ///   'severity': 'High',
-  /// });
-  /// ```
+
   factory Report.fromJson(Map<String, dynamic> json) {
     return Report(
       title: json['title'] ?? '',

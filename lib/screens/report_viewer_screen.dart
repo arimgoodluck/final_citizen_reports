@@ -3,10 +3,8 @@ import '../services/supabase_service.dart';
 import '../model/report_model.dart';
 
 /// A screen that displays a list of submitted citizen reports.
-///
 /// Fetches reports from Supabase and presents them in a scrollable list.
-/// Each report shows its title, description, location, and severity level
-/// with color-coded indicators.
+/// Each report shows its title, description, location and severity level with colour-coded indicators.
 class ReportViewerScreen extends StatelessWidget {
   /// Creates a [ReportViewerScreen] widget.
   const ReportViewerScreen({super.key});
@@ -14,12 +12,10 @@ class ReportViewerScreen extends StatelessWidget {
   /// Loads reports asynchronously from the Supabase backend.
   Future<List<Report>> _loadReports() => SupabaseService.fetchReports();
 
-  /// Returns a color based on the severity level.
-  ///
-  /// - `'low'` → green
-  /// - `'medium'` → orange
-  /// - `'high'` → red
-  /// - unknown → grey
+  /// Returns a colour based on the severity level
+  /// 'low' is green
+  /// 'medium'is orange
+  /// 'high' is red
   Color _severityColor(String severity) {
     switch (severity.toLowerCase()) {
       case 'low':

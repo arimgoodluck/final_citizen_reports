@@ -4,7 +4,6 @@ import 'screens/home_screen.dart';
 import 'screens/report_form_screen.dart';
 
 /// The main entry point of the Citizen Report application.
-///
 /// Initializes Flutter bindings and connects to Supabase backend.
 /// Launches the app with [MyApp] as the root widget.
 Future<void> main() async {
@@ -14,7 +13,7 @@ Future<void> main() async {
   // Launch confirmation for debugging and console visibility.
   print('Launching Citizen Report from final_citizensreport');
 
-  // ✅ Supabase initialization with project URL and anonymous key.
+  // Supabase initialization with project URL and anonymous key.
   // This enables authentication, storage, and database access.
   await Supabase.initialize(
     url: 'https://yshddxrtqrewnjmesogr.supabase.co',
@@ -29,7 +28,6 @@ Future<void> main() async {
 }
 
 /// The root widget of the Citizen Report application.
-///
 /// Sets up global theme, disables debug banner, and defines navigation routes.
 class MyApp extends StatelessWidget {
   /// Constructs the root [MyApp] widget.

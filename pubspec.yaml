@@ -10,8 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  mocktail: ^1.0.3
 
-  # ✅ Core packages
+
+  #  Core packages
   image_picker: ^1.0.8
   geolocator: ^10.1.0
   google_maps_flutter: ^2.9.1
